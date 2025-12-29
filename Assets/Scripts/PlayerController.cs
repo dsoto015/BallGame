@@ -1,21 +1,20 @@
 using TMPro;
-using Unity.VisualScripting;
-using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.InputSystem;
-
+using UnityEngine.UIElements;
+using UnityEngine.UI;
 public class PlayerController : MonoBehaviour
 {
     public float speed = 0;
     public TextMeshProUGUI countText;
     public TextMeshProUGUI winText;
     public GameObject winTextObject;
-
+  
     private Rigidbody _rigidBody; 
     private float _movementX;
     private float _movementY;
     private int _count = 0;
-    
+    private GameObject[] _allPickUps;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -23,6 +22,7 @@ public class PlayerController : MonoBehaviour
         _rigidBody = GetComponent <Rigidbody>();
         SetCountText();
         winTextObject.SetActive(false);
+        _allPickUps = GameObject.FindGameObjectsWithTag("PickUp");
     }
 
     private void FixedUpdate() 
@@ -45,8 +45,7 @@ public class PlayerController : MonoBehaviour
         if(other.gameObject.CompareTag("PickUp"))
         {
             other.gameObject.SetActive(false);    
-            _count++;
-            SetCountText();
+            IncreaseScore();
             if(CheckWinCondition(5))
             {
                 winTextObject.SetActive(true);
@@ -63,8 +62,30 @@ public class PlayerController : MonoBehaviour
         return true;
     }
 
+    void IncreaseScore()
+    {
+        _count++;
+        SetCountText();
+    }
+
+    public void ResetGame()
+    {
+        _count = 0;
+        SetCountText();
+        winTextObject.SetActive(false);
+        foreach (var pickUp in _allPickUps)
+        {
+            pickUp.SetActive(true);
+        }
+    }
+
     void SetCountText()
     {
         countText.text = $"Count {_count}";
+    }
+
+    public void OnButtonClick()
+    {
+        ResetGame();
     }
 }
