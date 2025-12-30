@@ -1627,6 +1627,7 @@ MonoBehaviour:
   speed: 20
   countText: {fileID: 156352273}
   winText: {fileID: 0}
+  resetButton: {fileID: 422179083}
   winTextObject: {fileID: 1998846983}
 --- !u!1001 &1609982176
 PrefabInstance:

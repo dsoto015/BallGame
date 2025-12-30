@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     public float speed = 0;
     public TextMeshProUGUI countText;
     public TextMeshProUGUI winText;
+    public GameObject resetButton; 
     public GameObject winTextObject;
   
     private Rigidbody _rigidBody; 
@@ -22,7 +23,9 @@ public class PlayerController : MonoBehaviour
         _rigidBody = GetComponent <Rigidbody>();
         SetCountText();
         winTextObject.SetActive(false);
+        resetButton.SetActive(false);
         _allPickUps = GameObject.FindGameObjectsWithTag("PickUp");
+        
     }
 
     private void FixedUpdate() 
@@ -49,6 +52,7 @@ public class PlayerController : MonoBehaviour
             if(CheckWinCondition(5))
             {
                 winTextObject.SetActive(true);
+                resetButton.SetActive(true);
             }
         }
     }
@@ -77,6 +81,7 @@ public class PlayerController : MonoBehaviour
         {
             pickUp.SetActive(true);
         }
+        resetButton.SetActive(false);
     }
 
     void SetCountText()
